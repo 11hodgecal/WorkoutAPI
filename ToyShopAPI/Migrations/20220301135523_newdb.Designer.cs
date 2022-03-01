@@ -11,7 +11,7 @@ using WorkoutAPI.Data;
 namespace WorkoutAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220301123901_newdb")]
+    [Migration("20220301135523_newdb")]
     partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,13 +248,15 @@ namespace WorkoutAPI.Migrations
                             ConcurrencyStamp = "7b483dfe-e56c-4d5b-97cd-b32652794d29",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKT9c72p7Aq33doiIBYD0Ms6XkVoKP0j58H8GqnciT5rkBuITTM0L42D75wLtRxJhQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFTiWYsA4nD2QNxO9EIf2mW29sgog+w7o1osQly4Ff32QLcD6g1vPrDnyaskPDS+wg==",
                             PhoneNumberConfirmed = false,
                             Role = "admin",
-                            SecurityStamp = "cdba6ad7-8eba-4974-a86e-dea0a9228a43",
+                            SecurityStamp = "964b9c80-7fb0-48ad-834d-7610200dd476",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
