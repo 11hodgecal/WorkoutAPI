@@ -31,6 +31,8 @@ namespace WorkoutAPI.Data
             user.UserName = "admin@admin.com";
             user.NormalizedUserName = "admin@admin.com".ToUpper();
             user.NormalizedEmail = "admin@admin.com".ToUpper();
+            user.FirstName = "Admin";
+            user.LastName = "";
             user.Email = "admin@admin.com";
             user.Role = "admin";
             user.LockoutEnabled = false;

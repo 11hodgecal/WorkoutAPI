@@ -68,6 +68,7 @@ namespace WorkoutAPI.Controllers
 
                 return new BadRequestObjectResult(new { Message = "User Registration Failed", Errors = dictionary });
             }
+            //saves the changes to the db 
             await _context.SaveChangesAsync();
             return Ok(new { Message = "User Reigstration Successful" });
         }
