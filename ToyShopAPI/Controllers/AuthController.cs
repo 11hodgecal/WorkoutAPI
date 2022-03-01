@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Web.Http.ModelBinding;
 using WorkoutAPI.Classes;
+using WorkoutAPI.Data;
 using WorkoutAPI.Models;
 
 namespace WorkoutAPI.Controllers
@@ -20,15 +21,17 @@ namespace WorkoutAPI.Controllers
         private readonly SignInManager<UserModel> signInManager;
         private readonly UserManager<UserModel> userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
         private readonly JwtBearerTokenSettings jwtBearerTokenSettings;
        
 
-        public AuthController(IOptions<JwtBearerTokenSettings> jwtTokenOptions, UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthController(IOptions<JwtBearerTokenSettings> jwtTokenOptions, UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             this.jwtBearerTokenSettings = jwtTokenOptions.Value;
             this.userManager = userManager;
             this._roleManager = roleManager;
+            this._context = context;
         }
 
         
@@ -44,9 +47,17 @@ namespace WorkoutAPI.Controllers
             }
 
             var identityUser = new UserModel() { UserName = userDetails.Email, Email = userDetails.Email, FirstName = userDetails.FirstName, LastName = userDetails.LastName  };
+            //makes the account a normal user
             identityUser.Role = "user";
             var result = await userManager.CreateAsync(identityUser, userDetails.Password);
-            var addusertorole = await userManager.AddToRoleAsync(identityUser, "user");
+            //adds possible days to workout
+            var days = new List<string>() { "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday" };
+            foreach (var day in days)
+            {
+                var Workout = new WorkoutModel() {Name = day, Userid = identityUser.Id};
+                await _context.Workouts.AddAsync(Workout);
+            }
+            
             if (!result.Succeeded)
             {
                 var dictionary = new ModelStateDictionary();
@@ -57,7 +68,7 @@ namespace WorkoutAPI.Controllers
 
                 return new BadRequestObjectResult(new { Message = "User Registration Failed", Errors = dictionary });
             }
-
+            await _context.SaveChangesAsync();
             return Ok(new { Message = "User Reigstration Successful" });
         }
 

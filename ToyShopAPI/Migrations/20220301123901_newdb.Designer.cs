@@ -11,7 +11,7 @@ using WorkoutAPI.Data;
 namespace WorkoutAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220227165716_newdb")]
+    [Migration("20220301123901_newdb")]
     partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,22 +43,6 @@ namespace WorkoutAPI.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "78bf8cbe-1f70-4d6d-890b-247bc57e6150",
-                            ConcurrencyStamp = "7b483dfe-e56c-4d5b-97cd-b32652794d29",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "ecfbe7ad-bb6b-49e6-ac2b-6359a73fbf02",
-                            ConcurrencyStamp = "d4e41d27-8605-4e69-8587-2636ed98e286",
-                            Name = "user",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -142,13 +126,6 @@ namespace WorkoutAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "27b9af34-a133-43e2-8dd2-aef04ddb2b8c",
-                            RoleId = "78bf8cbe-1f70-4d6d-890b-247bc57e6150"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -274,10 +251,10 @@ namespace WorkoutAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJM8rYWRHoFk2O62rzDIjrMZoqX0Bq7Ok25aCKZ1mrm+L+WFdPprIWbYORRNcZfrpw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKT9c72p7Aq33doiIBYD0Ms6XkVoKP0j58H8GqnciT5rkBuITTM0L42D75wLtRxJhQ==",
                             PhoneNumberConfirmed = false,
                             Role = "admin",
-                            SecurityStamp = "b7051c3a-cefd-4f38-a9b5-57819f772e25",
+                            SecurityStamp = "cdba6ad7-8eba-4974-a86e-dea0a9228a43",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -289,16 +266,15 @@ namespace WorkoutAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ActivityID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double?>("Duration")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("REAL");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Userid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ActivityID");
 
                     b.ToTable("Workouts");
                 });
@@ -352,17 +328,6 @@ namespace WorkoutAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WorkoutAPI.Models.WorkoutModel", b =>
-                {
-                    b.HasOne("WorkoutAPI.Models.ActivityModel", "Activity")
-                        .WithMany()
-                        .HasForeignKey("ActivityID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Activity");
                 });
 #pragma warning restore 612, 618
         }
